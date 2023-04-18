@@ -78,24 +78,8 @@ void loop() {
   if (distance < 50){
     Right();
     delay(300);
-    // distance = Rdistance;
-    // delay(1000);
   }
-  // if (distance < 50){
-  //   Left();
-  //   delay(300);
-  //   // distance = Ldistance;
-  //   // delay(1000);
-  // }
-  // if (Ldistance > Rdistance){
-  //   Left();
-  //   delay(300);
-  // }
-  //   else{
-  //     Right();
-  //     delay(300);
-  //   }
-  
+
   if (distance > 50){
     Forward();
   }
