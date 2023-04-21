@@ -1,3 +1,5 @@
+#include <Servo.h>
+Servo sally;
 const int ENA = 6;
 const int IN1 = 7;
 const int IN2 = 8;
@@ -22,6 +24,10 @@ void Stop() {
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, LOW);
+  Lright();
+  delay(3000);
+  Lleft();
+  delay(3000);
 }
 void Back() {
   digitalWrite(IN1, LOW);
@@ -41,6 +47,28 @@ void Left() {
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
 }
+void Read() {
+  digitalWrite(trig, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig, LOW);
+  duration = pulseIn(echo, HIGH);
+  distance = duration * 0.034/2;
+}
+void Lright() {
+ sally.write(0);
+ Read();
+}
+void Lleft() {
+ sally.write(180);
+ Read();
+}
+void Lhome() {
+ sally.write(90);
+ Read();
+}
+
 void setup() {
 
   pinMode(ENA, OUTPUT);
@@ -56,31 +84,20 @@ void setup() {
   pinMode(trig, OUTPUT);
   pinMode(echo, INPUT);
   Serial.begin(9600);
+  
+  sally.attach(4);
 }
 
 void loop() {
+  Serial.begin(9600);
+  Serial.println(distance);
   
-  digitalWrite(trig, LOW);
-  delayMicroseconds(2);
-  digitalWrite(trig, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trig, LOW);
-  duration = pulseIn(echo, HIGH);
-  distance = duration * 0.034/2;
-  
+  Lhome();
+  delay(0);
   
   if (distance < 50){
     Stop();
-    delay(1000);
-    Back();
-    delay(300);
   }
-  if (distance < 50){
-    Right();
-    delay(300);
-  }
-
-  if (distance > 50){
-    Forward();
-  }
+  
+  
 }
