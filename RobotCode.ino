@@ -44,6 +44,7 @@ void Left() {
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
+  delay(500);
 }
 void Read() {
   digitalWrite(trig, LOW);
@@ -58,21 +59,20 @@ void Lright() {
  sally.write(0);
  delay(2000);
  Read();
- delay(2000); 
  Rdist = distance;
+ sally.write(90);
+ delay(2000);
 }
 void Lleft() {
  sally.write(180);
  delay(2000);
  Read();
- delay(2000);
  Ldist = distance;
-}
-void Lhome() {
  sally.write(90);
  delay(2000);
+}
+void Lhome() {
  Read();
- delay(2000);
  Hdist = distance;
 }
 
@@ -95,6 +95,8 @@ void setup() {
   Serial.begin(9600);
   
   sally.attach(4);
+  sally.write(90);
+  delay(2000);
 }
 
 void loop() {
@@ -109,7 +111,6 @@ void loop() {
     Stop();
     Lright();
     Lleft();
-    Lhome();
     if (Rdist > Ldist){
       Right();
     }
