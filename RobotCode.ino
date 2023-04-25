@@ -10,8 +10,9 @@ int trig = 2;
 int echo = 3;
 long duration;
 int distance;
-int Rdistance;
-int Ldistance;
+int Rdist;
+int Ldist;
+int Hdist;
 
 void Forward() {
   digitalWrite(IN1, HIGH);
@@ -24,10 +25,6 @@ void Stop() {
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, LOW);
-  Lright();
-  delay(3000);
-  Lleft();
-  delay(3000);
 }
 void Back() {
   digitalWrite(IN1, LOW);
@@ -58,16 +55,23 @@ void Read() {
 }
 void Lright() {
  sally.write(0);
+ delay(2000);
  Read();
+ Rdist = distance;
 }
 void Lleft() {
  sally.write(180);
+ delay(2000);
  Read();
+ Ldist = distance;
 }
 void Lhome() {
  sally.write(90);
  Read();
+ Hdist = distance;
 }
+
+
 
 void setup() {
 
@@ -93,11 +97,28 @@ void loop() {
   Serial.println(distance);
   
   Lhome();
-  delay(0);
   
-  if (distance < 50){
-    Stop();
+    if (Hdist > 50){
+    Forward();
   }
-  
-  
+  if (Hdist < 50){
+    Stop();
+      Lright();
+      delay(2000);
+      Lleft();
+      delay(2000);
+      Lhome();
+  }
+  if (Rdist > Ldist){
+    Right();
+    delay(500);
+    Forward();
+    delay(1000);
+  }
+  if (Rdist < Ldist){
+    Left();
+    delay(500);
+    Forward();
+    delay(1000);
+    }
 }
