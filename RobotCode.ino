@@ -37,6 +37,7 @@ void Right() {
   digitalWrite(IN2, HIGH);
   digitalWrite(IN3, HIGH);
   digitalWrite(IN4, LOW);
+  delay(500);
 }
 void Left() {
   digitalWrite(IN1, HIGH);
@@ -57,17 +58,21 @@ void Lright() {
  sally.write(0);
  delay(2000);
  Read();
+ delay(2000); 
  Rdist = distance;
 }
 void Lleft() {
  sally.write(180);
  delay(2000);
  Read();
+ delay(2000);
  Ldist = distance;
 }
 void Lhome() {
  sally.write(90);
+ delay(2000);
  Read();
+ delay(2000);
  Hdist = distance;
 }
 
@@ -97,28 +102,19 @@ void loop() {
   Serial.println(distance);
   
   Lhome();
-  
-    if (Hdist > 50){
+  if (Hdist > 50){
     Forward();
   }
-  if (Hdist < 50){
+  else {
     Stop();
-      Lright();
-      delay(2000);
-      Lleft();
-      delay(2000);
-      Lhome();
-  }
-  if (Rdist > Ldist){
-    Right();
-    delay(500);
-    Forward();
-    delay(1000);
-  }
-  if (Rdist < Ldist){
-    Left();
-    delay(500);
-    Forward();
-    delay(1000);
+    Lright();
+    Lleft();
+    Lhome();
+    if (Rdist > Ldist){
+      Right();
     }
+    else if (Rdist < Ldist){
+      Left();
+    }
+  }
 }
